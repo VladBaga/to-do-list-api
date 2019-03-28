@@ -100,4 +100,3 @@ public class ToDoItemServlet extends HttpServlet {
         resp.setHeader("Access-Control-Allow-Headers", "Content-Type");
     }
 }
-
