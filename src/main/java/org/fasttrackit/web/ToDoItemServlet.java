@@ -58,6 +58,34 @@ public class ToDoItemServlet extends HttpServlet {
             resp.sendError(500,"There was an error processing your request. " + e.getMessage()); //status code = 404 not found
         }
     }
+
+    @Override
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        setAccessControlHeaders(resp);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        SaveToDoItemRequest saveToDoItemRequest = objectMapper.readValue(req.getReader(), SaveToDoItemRequest.class);
+
+        try {
+            toDoItemService.updateToDoItem(saveToDoItemRequest);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        setAccessControlHeaders(resp);
+
+        String id = req.getParameter("id");
+
+        try {
+            toDoItemService.deleteToDoItem(Long.parseLong(id));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     //for Preflight requests
     @Override
     protected void doOptions(HttpServletRequest req, HttpServletResponse resp)
